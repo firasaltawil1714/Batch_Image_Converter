@@ -32,21 +32,32 @@ class ImageConverter:
                 save_kwargs["optimize"] = True
             img.save(dst_path, format=pil_format, **save_kwargs)
 
-    def run(self):
+      def run(self):
         self.output_dir.mkdir(parents=True, exist_ok=True)
         images = self.find_images()
         if not images:
             print("No images found to convert.")
             return
+
+        converted = skipped = failed = 0
         for img_path in images:
             relative_path = img_path.relative_to(self.input_dir)
             dst_path = self.output_dir / relative_path.with_suffix(f".{self.target_format.lower()}")
             dst_path.parent.mkdir(parents=True, exist_ok=True)
+
+            if dst_path.exists():
+                print(f"Skipped (already exists): {dst_path}")
+                skipped += 1
+                continue
             try:
                 self.convert_image(img_path, dst_path)
                 print(f"Converted: {img_path} -> {dst_path}")
+                converted += 1
             except Exception as e:
                 print(f"Failed to convert {img_path}: {e}", file=sys.stderr)
+                failed += 1
+
+        print(f"Done: {converted} converted, {skipped} skipped, {failed} failed")
 
 
 def parse_args():
