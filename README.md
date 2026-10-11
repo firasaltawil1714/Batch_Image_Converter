@@ -6,7 +6,7 @@ Converts a folder of images to a different format in bulk, with optional resizin
 
 ## Usage
 
-python image_converter.py input_folder output_folder --format webp --quality 90 --recursive
+python Batch_Image_Converter.py input_folder output_folder --format webp --quality 90 --recursive
 
 
 ## Options
