@@ -32,7 +32,7 @@ class ImageConverter:
                 save_kwargs["optimize"] = True
             img.save(dst_path, format=pil_format, **save_kwargs)
 
-      def run(self):
+    def run(self):
         self.output_dir.mkdir(parents=True, exist_ok=True)
         images = self.find_images()
         if not images:
